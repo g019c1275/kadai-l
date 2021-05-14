@@ -12,7 +12,7 @@ public class EmployeeValidator {
     public static List<String> validate(Employee e, Boolean codeDuplicateCheckFlag, Boolean passwordCheckFlag) {
         List<String> errors = new ArrayList<String>();
 
-        String code_error = validateCode(e.getCode(),codeDuplicateCheckFlag);
+        String code_error = validateCode(e.getCode(), codeDuplicateCheckFlag);
         if(!code_error.equals("")) {
             errors.add(code_error);
         }
@@ -32,7 +32,7 @@ public class EmployeeValidator {
 
     // 社員番号
     private static String validateCode(String code, Boolean codeDuplicateCheckFlag) {
-        // 必須チェック
+        // 必須入力チェック
         if(code == null || code.equals("")) {
             return "社員番号を入力してください。";
         }
@@ -40,7 +40,7 @@ public class EmployeeValidator {
         // すでに登録されている社員番号との重複チェック
         if(codeDuplicateCheckFlag) {
             EntityManager em = DBUtil.createEntityManager();
-            long employees_count = (long)em.createNamedQuery("checkRegisteredCode, Long.class").setParameter("code", code).getSingleResult();
+            long employees_count = (long)em.createNamedQuery("checkRegisteredCode", Long.class).setParameter("code", code).getSingleResult();
             em.close();
             if(employees_count > 0) {
                 return "入力された社員番号の情報はすでに存在しています。";
