@@ -48,12 +48,12 @@ public class LoginServlet extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    // ログイン処理の実行
+    // ログイン処理を実行
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 認証結果を格納する変数
         Boolean check_result = false;
 
-        String code= request.getParameter("code");
+        String code = request.getParameter("code");
         String plain_pass = request.getParameter("password");
 
         Employee e = null;
@@ -69,9 +69,9 @@ public class LoginServlet extends HttpServlet {
             // 社員番号とパスワードが正しいかチェックする
             try {
                 e = em.createNamedQuery("checkLoginCodeAndPassword", Employee.class)
-                        .setParameter("code", code)
-                        .setParameter("pass", password)
-                        .getSingleResult();
+                      .setParameter("code", code)
+                      .setParameter("pass", password)
+                      .getSingleResult();
             } catch(NoResultException ex) {}
 
             em.close();
@@ -93,8 +93,9 @@ public class LoginServlet extends HttpServlet {
             // 認証できたらログイン状態にしてトップページへリダイレクト
             request.getSession().setAttribute("login_employee", e);
 
-            request.getSession().setAttribute("flush", "ろぐいんしました");
+            request.getSession().setAttribute("flush", "ログインしました。");
             response.sendRedirect(request.getContextPath() + "/");
         }
     }
+
 }
